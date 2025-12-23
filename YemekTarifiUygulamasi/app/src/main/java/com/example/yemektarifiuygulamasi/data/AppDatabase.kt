@@ -25,7 +25,7 @@ abstract class AppDatabase : RoomDatabase() {
                     "recipe_database"
                 )
                     .addCallback(PrepopulateCallback())
-                    .fallbackToDestructiveMigration() // Şema değiştiği için eski veriyi silip yenisini kurar
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance
@@ -44,11 +44,9 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         suspend fun populateDatabase(dao: RecipeDao) {
-            // Varsayılan tariflerde isUserCreated = false (Zaten varsayılan değer false ama açıkça belirtelim)
             val recipes = listOf(
                 Recipe(title = "Menemen", description = "Klasik Türk kahvaltısı.", ingredients = "yumurta, domates, biber, soğan, yağ", instructions = "Biberleri kavur...", difficulty = "Kolay", cookingTime = 15),
                 Recipe(title = "Mercimek Çorbası", description = "Sıcak bir başlangıç.", ingredients = "kırmızı mercimek, soğan, havuç, patates", instructions = "Sebzeleri kavur...", difficulty = "Orta", cookingTime = 30),
-                // ... Diğer tariflerin de sonuna isUserCreated = false ekleyebilirsin veya varsayılanı kullanır ...
                 Recipe(title = "Omlet", description = "Hızlı kahvaltı.", ingredients = "yumurta, peynir, süt, tereyağı", instructions = "Yumurtaları çırp...", difficulty = "Kolay", cookingTime = 10)
             )
             dao.insertAll(recipes)
